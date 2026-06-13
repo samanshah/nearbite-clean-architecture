@@ -1,4 +1,4 @@
-package com.geekstudio.nearbite.ui.theme
+package com.geekstudio.nearbite.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

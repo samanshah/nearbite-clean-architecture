@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -19,9 +21,20 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "BASE_URL",
+            "\"https://api.yelp.com/\""
+        )
     }
 
     buildTypes {
+        debug {
+
+            isDebuggable = true
+
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -39,6 +52,12 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+    testOptions {
+
+        unitTests.isReturnDefaultValues = true
+
     }
 }
 
