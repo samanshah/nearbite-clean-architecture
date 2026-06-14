@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.retrofit)
+    implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.kotlinx.serialization.converter)
@@ -100,6 +101,7 @@ dependencies {
     implementation(libs.compose.shimmer)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
+    implementation(libs.room.paging)
     ksp(libs.room.compiler)
 
     implementation(libs.androidx.datastore)
