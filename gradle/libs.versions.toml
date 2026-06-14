@@ -28,6 +28,7 @@ turbine = "1.1.0"
 mockk = "1.13.11"
 detekt = "1.23.8"
 ktlint = "14.2.0"
+androidx-paging = "3.5.0"
 
 
 [libraries]
@@ -66,6 +67,8 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinTest" }
 app-cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 io-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidx-paging" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidx-paging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

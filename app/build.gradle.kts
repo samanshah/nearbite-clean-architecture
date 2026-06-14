@@ -104,6 +104,9 @@ dependencies {
 
     implementation(libs.androidx.datastore)
 
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
+
 }
 
 hilt {
