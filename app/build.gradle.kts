@@ -27,6 +27,8 @@ android {
             "BASE_URL",
             "\"https://api.yelp.com/\""
         )
+
+        resValue(type = "string", "maps_api_key", value = "KEY")
     }
 
     buildTypes {
@@ -93,6 +95,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.kotlinx.serialization.converter)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.coil.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -108,6 +112,12 @@ dependencies {
 
     implementation(libs.androidx.paging)
     implementation(libs.androidx.paging.compose)
+
+    implementation(libs.google.maps.compose)
+    implementation(libs.google.gms.maps)
+    implementation(libs.google.gms.location)
+
+    implementation(libs.google.permissions)
 
 }
 

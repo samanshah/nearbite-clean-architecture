@@ -13,6 +13,8 @@ data class HomeUiState(
 
     val error: String? = null,
 
-    val searchQuery: String = ""
+    val searchQuery: String = "",
+
+    val currentLocation: Pair<Double, Double>? = null
 
 )
