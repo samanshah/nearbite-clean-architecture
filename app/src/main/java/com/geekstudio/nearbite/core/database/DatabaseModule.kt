@@ -4,6 +4,7 @@ import kotlin.jvm.java
 
 import android.content.Context
 import androidx.room.Room
+import com.geekstudio.nearbite.data.local.dao.RemoteKeysDao
 import com.geekstudio.nearbite.data.local.dao.RestaurantDao
 import com.geekstudio.nearbite.data.local.database.NearBiteDatabase
 import dagger.Module
@@ -39,6 +40,16 @@ object DatabaseModule {
     ): RestaurantDao {
 
         return database.restaurantDao()
+
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteKeysDao(
+        database: NearBiteDatabase
+    ): RemoteKeysDao {
+
+        return database.remoteKeysDao()
 
     }
 

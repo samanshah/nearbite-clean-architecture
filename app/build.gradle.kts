@@ -119,6 +119,8 @@ dependencies {
 
     implementation(libs.google.permissions)
 
+    implementation(libs.androidx.startup.runtime)
+
 }
 
 hilt {
