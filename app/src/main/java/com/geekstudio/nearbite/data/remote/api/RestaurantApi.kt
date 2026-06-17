@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface RestaurantApi {
 
-    @GET("v3/businesses/search")
+    @GET("interpreter")
     suspend fun searchRestaurants(
         @Query("latitude")
         latitude: Double,

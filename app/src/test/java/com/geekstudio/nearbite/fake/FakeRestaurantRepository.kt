@@ -18,7 +18,7 @@ class FakeRestaurantRepository : RestaurantRepository {
                 listOf(
                     Restaurant(
                         id = "1",
-                        name = "Pizza Place",
+                        title = "Pizza Place",
                         imageUrl = "",
                         rating = 4.5,
                         category = "Italian",
@@ -40,7 +40,7 @@ class FakeRestaurantRepository : RestaurantRepository {
         return Result.Success(
             Restaurant(
                 id = id,
-                name = "Pizza Place",
+                title = "Pizza Place",
                 imageUrl = "",
                 rating = 4.5,
                 category = "Italian",

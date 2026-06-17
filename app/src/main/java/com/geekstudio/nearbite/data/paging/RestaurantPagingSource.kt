@@ -29,7 +29,7 @@ class RestaurantPagingSource(
 
                     Restaurant(
                         id = it.id,
-                        name = it.name,
+                        title = it.name,
                         imageUrl = it.imageUrl.orEmpty(),
                         rating = it.rating ?: 0.0,
                         category = it.categories?.firstOrNull()?.title.orEmpty(),

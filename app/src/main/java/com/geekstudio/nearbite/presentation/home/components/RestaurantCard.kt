@@ -31,7 +31,7 @@ fun RestaurantCard(
             )
 
             Text(
-                text = restaurant.name
+                text = restaurant.title
             )
 
             Text(

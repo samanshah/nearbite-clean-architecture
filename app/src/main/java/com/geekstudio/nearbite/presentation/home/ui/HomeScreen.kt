@@ -23,6 +23,8 @@ import com.geekstudio.nearbite.domain.model.Restaurant
 import com.geekstudio.nearbite.presentation.home.components.RestaurantCard
 import com.geekstudio.nearbite.presentation.home.state.HomeUiEvent
 import com.geekstudio.nearbite.presentation.home.state.HomeUiState
+import com.geekstudio.nearbite.presentation.home.components.RestaurantMap
+import com.geekstudio.nearbite.presentation.map.mapper.toMapMarkerUiModel
 
 @Composable
 fun HomeScreen(
@@ -80,13 +82,30 @@ private fun RestaurantContent(
     restaurants: LazyPagingItems<Restaurant>,
     onRestaurantClick: (String) -> Unit
 ) {
+    val mapMarkers = buildList {
+        val count = minOf(
+            restaurants.itemCount,
+            10
+        )
+
+        for (index in 0 until count) {
+            restaurants[index]
+                ?.toMapMarkerUiModel()
+                ?.let {
+                    add(it)
+                }
+        }
+    }
+    RestaurantMap(
+        markers = mapMarkers
+    )
     LazyRow(
         contentPadding = PaddingValues(12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(restaurants.itemCount) { index ->
             Text(
-                text = restaurants[index]?.name.orEmpty()
+                text = restaurants[index]?.title.orEmpty()
             )
         }
     }

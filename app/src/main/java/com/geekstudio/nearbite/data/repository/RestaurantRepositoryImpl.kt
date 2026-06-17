@@ -10,6 +10,7 @@ import com.geekstudio.nearbite.data.local.dao.RemoteKeysDao
 import com.geekstudio.nearbite.data.local.dao.RestaurantDao
 import com.geekstudio.nearbite.data.local.database.NearBiteDatabase
 import com.geekstudio.nearbite.data.mapper.toDomain
+import com.geekstudio.nearbite.data.paging.DemoRestaurantPagingSource
 import com.geekstudio.nearbite.data.paging.RestaurantPagingSource
 import com.geekstudio.nearbite.data.paging.RestaurantRemoteMediator
 import com.geekstudio.nearbite.data.remote.api.RestaurantApi
@@ -25,42 +26,20 @@ class RestaurantRepositoryImpl @Inject constructor(
     private val database: NearBiteDatabase,
 ) : RestaurantRepository {
 
-    @OptIn(ExperimentalPagingApi::class)
     override fun getNearbyRestaurants(
         latitude: Double,
         longitude: Double
     ): Flow<PagingData<Restaurant>> {
 
         return Pager(
-
             config = PagingConfig(
-                pageSize = 20
+                pageSize = 20,
+                enablePlaceholders = false
             ),
-
-            remoteMediator =
-                RestaurantRemoteMediator(
-                    api = api,
-                    database = database,
-                    latitude = latitude,
-                    longitude = longitude
-                ),
-
             pagingSourceFactory = {
-
-                dao.pagingSource()
-
+                DemoRestaurantPagingSource()
             }
-
-        ).flow.map { pagingData ->
-
-            pagingData.map {
-
-                it.toDomain()
-
-            }
-
-        }
-
+        ).flow
     }
 
     override suspend fun getRestaurantDetail(

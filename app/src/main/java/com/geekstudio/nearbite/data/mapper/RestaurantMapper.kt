@@ -18,9 +18,9 @@ fun RestaurantDto.toEntity(): RestaurantEntity {
 
         category = categories?.firstOrNull()?.title.orEmpty(),
 
-        latitude = coordinates?.latitude ?: 0.0,
+        latitude = coordinates?.latitude ?: fallbackLatitude(id),
 
-        longitude = coordinates?.longitude ?: 0.0,
+        longitude = coordinates?.longitude ?: fallbackLongitude(id),
 
         address = location?.address.orEmpty(),
 
@@ -36,7 +36,7 @@ fun RestaurantEntity.toDomain(): Restaurant {
 
         id = id,
 
-        name = name,
+        title = name,
 
         imageUrl = imageUrl,
 
@@ -54,4 +54,16 @@ fun RestaurantEntity.toDomain(): Restaurant {
 
     )
 
+}
+
+private fun fallbackLatitude(
+    id: String
+): Double {
+    return 35.6892 + (id.hashCode() % 100) * 0.0001
+}
+
+private fun fallbackLongitude(
+    id: String
+): Double {
+    return 51.3890 + (id.hashCode() % 100) * 0.0001
 }
