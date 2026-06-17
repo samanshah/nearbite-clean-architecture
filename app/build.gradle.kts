@@ -25,10 +25,8 @@ android {
         buildConfigField(
             "String",
             "BASE_URL",
-            "\"https://api.yelp.com/\""
+            "\"https://overpass-api.de/api/\""
         )
-
-        resValue(type = "string", "maps_api_key", value = "KEY")
     }
 
     buildTypes {
@@ -113,13 +111,11 @@ dependencies {
     implementation(libs.androidx.paging)
     implementation(libs.androidx.paging.compose)
 
-    implementation(libs.google.maps.compose)
-    implementation(libs.google.gms.maps)
     implementation(libs.google.gms.location)
 
-    implementation(libs.google.permissions)
-
     implementation(libs.androidx.startup.runtime)
+
+    implementation(libs.osmdroid.android)
 
 }
 

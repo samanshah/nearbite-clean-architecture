@@ -1,5 +1,6 @@
 package com.geekstudio.nearbite.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -24,6 +25,7 @@ class RestaurantRepositoryImpl @Inject constructor(
     private val database: NearBiteDatabase,
 ) : RestaurantRepository {
 
+    @OptIn(ExperimentalPagingApi::class)
     override fun getNearbyRestaurants(
         latitude: Double,
         longitude: Double

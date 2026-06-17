@@ -1,7 +1,5 @@
 package com.geekstudio.nearbite.core.database
 
-import kotlin.jvm.java
-
 import android.content.Context
 import androidx.room.Room
 import com.geekstudio.nearbite.data.local.dao.RemoteKeysDao
@@ -21,15 +19,16 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(
-        @ApplicationContext
-        context: Context
+        @ApplicationContext context: Context
     ): NearBiteDatabase {
 
         return Room.databaseBuilder(
             context,
             NearBiteDatabase::class.java,
             "nearbite.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 
     }
 
