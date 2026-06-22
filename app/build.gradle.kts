@@ -25,7 +25,7 @@ android {
         buildConfigField(
             "String",
             "BASE_URL",
-            "\"https://overpass-api.de/api/\""
+            "\"https://overpass.kumi.systems/api/\""
         )
     }
 

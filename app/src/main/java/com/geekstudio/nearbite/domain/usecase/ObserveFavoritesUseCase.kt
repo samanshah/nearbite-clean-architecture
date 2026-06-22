@@ -9,10 +9,10 @@ class ObserveFavoritesUseCase @Inject constructor(
     private val repository: RestaurantRepository
 ) {
 
-    operator fun invoke(): Flow<List<Restaurant>> {
-
-        return repository.getFavoriteRestaurants()
-
-    }
+//    operator fun invoke(): Flow<List<Restaurant>> {
+//
+//        return repository.getFavoriteRestaurants()
+//
+//    }
 
 }

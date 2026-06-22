@@ -11,14 +11,14 @@ interface RestaurantRepository {
         latitude: Double, longitude: Double
     ): Flow<PagingData<Restaurant>>
 
-    suspend fun getRestaurantDetail(
-        id: String
-    ): Result<Restaurant>
-
-    suspend fun toggleFavorite(
-        restaurantId: String
-    )
-
-    fun getFavoriteRestaurants(): Flow<List<Restaurant>>
+//    suspend fun getRestaurantDetail(
+//        id: String
+//    ): Result<Restaurant>
+//
+//    suspend fun toggleFavorite(
+//        restaurantId: String
+//    )
+//
+//    fun getFavoriteRestaurants(): Flow<List<Restaurant>>
 
 }

@@ -7,14 +7,14 @@ class ToggleFavoriteUseCase @Inject constructor(
     private val repository: RestaurantRepository
 ) {
 
-    suspend operator fun invoke(
-        restaurantId: String
-    ) {
-
-        repository.toggleFavorite(
-            restaurantId
-        )
-
-    }
+//    suspend operator fun invoke(
+//        restaurantId: String
+//    ) {
+//
+//        repository.toggleFavorite(
+//            restaurantId
+//        )
+//
+//    }
 
 }
