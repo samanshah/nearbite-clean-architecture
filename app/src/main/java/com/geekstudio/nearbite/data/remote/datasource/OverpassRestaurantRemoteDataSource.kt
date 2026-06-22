@@ -1,5 +1,6 @@
 package com.geekstudio.nearbite.data.remote.datasource
 
+import android.util.Log
 import com.geekstudio.nearbite.data.mapper.toRestaurantOrNull
 import com.geekstudio.nearbite.data.remote.api.OverpassApi
 import com.geekstudio.nearbite.data.remote.query.OverpassQueryBuilder
@@ -16,18 +17,30 @@ class OverpassRestaurantRemoteDataSource @Inject constructor(
         latitude: Double,
         longitude: Double
     ): List<Restaurant> {
+        Log.d("NearBiteDataSource", "Overpass source called")
+
         val query = OverpassQueryBuilder.nearbyRestaurants(
             latitude = latitude,
             longitude = longitude
         )
 
+        Log.d("NearBiteDataSource", "Overpass query:\n$query")
+
         val requestBody = query.toRequestBody(
             "text/plain".toMediaType()
         )
 
-        return api.queryRestaurants(requestBody)
-            .elements
+        val response = api.queryRestaurants(requestBody)
+
+        val restaurants = response.elements
             .mapNotNull { it.toRestaurantOrNull() }
             .distinctBy { it.id }
+
+        Log.d(
+            "NearBiteDataSource",
+            "Overpass result count = ${restaurants.size}"
+        )
+
+        return restaurants
     }
 }

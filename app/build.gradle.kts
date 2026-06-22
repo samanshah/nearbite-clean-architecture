@@ -27,6 +27,12 @@ android {
             "BASE_URL",
             "\"https://overpass.private.coffee/api/\""
         )
+
+        buildConfigField(
+            "String",
+            "DATA_SOURCE",
+            "\"DEMO\""
+        )
     }
 
     buildTypes {
