@@ -12,14 +12,13 @@ class SearchRestaurantsUseCase @Inject constructor(
 
     operator fun invoke(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        query: String
     ): Flow<PagingData<Restaurant>> {
-
         return repository.getNearbyRestaurants(
             latitude = latitude,
-            longitude = longitude
+            longitude = longitude,
+            query = query
         )
-
     }
-
 }

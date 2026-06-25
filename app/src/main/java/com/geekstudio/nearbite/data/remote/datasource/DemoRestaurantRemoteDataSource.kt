@@ -9,10 +9,19 @@ class DemoRestaurantRemoteDataSource @Inject constructor() : RestaurantRemoteDat
 
     override suspend fun getNearbyRestaurants(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        query: String
     ): List<Restaurant> {
-        Log.d("NearBiteDataSource", "Demo source called")
+        Log.d("NearBiteDataSource", "Demo source called with query = $query")
 
-        return DemoRestaurants.restaurants
+        if (query.isBlank()) {
+            return DemoRestaurants.restaurants
+        }
+
+        return DemoRestaurants.restaurants.filter { restaurant ->
+            restaurant.title.contains(query, ignoreCase = true) ||
+                    restaurant.category.contains(query, ignoreCase = true) ||
+                    restaurant.address.contains(query, ignoreCase = true)
+        }
     }
 }

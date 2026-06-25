@@ -8,7 +8,8 @@ import com.geekstudio.nearbite.domain.model.Restaurant
 class RestaurantPagingSource(
     private val remoteDataSource: RestaurantRemoteDataSource,
     private val latitude: Double,
-    private val longitude: Double
+    private val longitude: Double,
+    private val query: String
 ) : PagingSource<Int, Restaurant>() {
 
     override suspend fun load(
@@ -17,7 +18,8 @@ class RestaurantPagingSource(
         return try {
             val restaurants = remoteDataSource.getNearbyRestaurants(
                 latitude = latitude,
-                longitude = longitude
+                longitude = longitude,
+                query = query
             )
 
             LoadResult.Page(

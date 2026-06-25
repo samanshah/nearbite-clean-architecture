@@ -6,6 +6,7 @@ interface RestaurantRemoteDataSource {
 
     suspend fun getNearbyRestaurants(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        query: String
     ): List<Restaurant>
 }

@@ -18,7 +18,6 @@ fun HomeRoute(
     val restaurants = state.restaurants.collectAsLazyPagingItems()
 
     HomeScreen(
-        state = state,
         restaurants = restaurants,
         onEvent = viewModel::onEvent,
         onRestaurantClick = onRestaurantClick

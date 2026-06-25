@@ -15,32 +15,37 @@ class OverpassRestaurantRemoteDataSource @Inject constructor(
 
     override suspend fun getNearbyRestaurants(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        query: String
     ): List<Restaurant> {
-        Log.d("NearBiteDataSource", "Overpass source called")
+        Log.d("NearBiteDataSource", "Overpass source called with query = $query")
 
-        val query = OverpassQueryBuilder.nearbyRestaurants(
+        val overpassQuery = OverpassQueryBuilder.nearbyRestaurants(
             latitude = latitude,
             longitude = longitude
         )
 
-        Log.d("NearBiteDataSource", "Overpass query:\n$query")
-
-        val requestBody = query.toRequestBody(
+        val requestBody = overpassQuery.toRequestBody(
             "text/plain".toMediaType()
         )
 
-        val response = api.queryRestaurants(requestBody)
+        val restaurants = api.queryRestaurants(requestBody)
+            .elements
+            .mapNotNull { element ->
+                element.toRestaurantOrNull()
+            }
+            .distinctBy { restaurant ->
+                restaurant.id
+            }
 
-        val restaurants = response.elements
-            .mapNotNull { it.toRestaurantOrNull() }
-            .distinctBy { it.id }
+        if (query.isBlank()) {
+            return restaurants
+        }
 
-        Log.d(
-            "NearBiteDataSource",
-            "Overpass result count = ${restaurants.size}"
-        )
-
-        return restaurants
+        return restaurants.filter { restaurant ->
+            restaurant.title.contains(query, ignoreCase = true) ||
+                    restaurant.category.contains(query, ignoreCase = true) ||
+                    restaurant.address.contains(query, ignoreCase = true)
+        }
     }
 }

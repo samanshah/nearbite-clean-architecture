@@ -8,17 +8,9 @@ import com.geekstudio.nearbite.core.common.Result
 interface RestaurantRepository {
 
     fun getNearbyRestaurants(
-        latitude: Double, longitude: Double
+        latitude: Double,
+        longitude: Double,
+        query: String
     ): Flow<PagingData<Restaurant>>
-
-//    suspend fun getRestaurantDetail(
-//        id: String
-//    ): Result<Restaurant>
-//
-//    suspend fun toggleFavorite(
-//        restaurantId: String
-//    )
-//
-//    fun getFavoriteRestaurants(): Flow<List<Restaurant>>
 
 }

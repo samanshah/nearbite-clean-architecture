@@ -16,7 +16,8 @@ class RestaurantRepositoryImpl @Inject constructor(
 
     override fun getNearbyRestaurants(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        query: String
     ): Flow<PagingData<Restaurant>> {
         return Pager(
             config = PagingConfig(
@@ -27,7 +28,8 @@ class RestaurantRepositoryImpl @Inject constructor(
                 RestaurantPagingSource(
                     remoteDataSource = remoteDataSource,
                     latitude = latitude,
-                    longitude = longitude
+                    longitude = longitude,
+                    query = query
                 )
             }
         ).flow

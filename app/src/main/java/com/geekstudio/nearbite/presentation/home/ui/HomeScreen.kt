@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
@@ -28,11 +29,13 @@ import com.geekstudio.nearbite.presentation.home.components.RestaurantMap
 import com.geekstudio.nearbite.presentation.home.components.SearchSection
 import com.geekstudio.nearbite.presentation.home.state.HomeUiEvent
 import com.geekstudio.nearbite.presentation.home.state.HomeUiState
+import com.geekstudio.nearbite.presentation.home.viewmodel.HomeViewModel
 import com.geekstudio.nearbite.presentation.map.mapper.toMapMarkerUiModel
+import androidx.compose.runtime.collectAsState
 
 @Composable
 fun HomeScreen(
-    state: HomeUiState,
+    homeViewModel: HomeViewModel = hiltViewModel(),
     restaurants: LazyPagingItems<Restaurant>,
     onEvent: (HomeUiEvent) -> Unit,
     onRestaurantClick: (Restaurant) -> Unit
@@ -66,7 +69,7 @@ fun HomeScreen(
                     HomeEmptyContent()
                 } else {
                     RestaurantContent(
-                        state = state,
+                        homeViewModel = homeViewModel,
                         restaurants = restaurants,
                         onRestaurantClick = onRestaurantClick
                     )
@@ -91,10 +94,12 @@ fun HomeScreen(
 
 @Composable
 private fun RestaurantContent(
-    state: HomeUiState,
+    homeViewModel: HomeViewModel,
     restaurants: LazyPagingItems<Restaurant>,
     onRestaurantClick: (Restaurant) -> Unit
 ) {
+
+    val query = homeViewModel.state.collectAsState().value.searchQuery
     val mapMarkers = buildList {
         val count = minOf(
             restaurants.itemCount,
@@ -112,8 +117,8 @@ private fun RestaurantContent(
 
     HomeHeader()
 
-    SearchSection(query = state.searchQuery) {
-
+    SearchSection(query = query) {
+        homeViewModel.onEvent(HomeUiEvent.SearchChanged(it))
     }
 
     RestaurantMap(
