@@ -1,10 +1,13 @@
 package com.geekstudio.nearbite.presentation.home.components
 
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
@@ -48,57 +51,72 @@ fun RestaurantMap(
         }
     }
 
-    Card(
-        modifier = Modifier
+    ElevatedCard(
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        AndroidView(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(260.dp),
-            factory = {
-                mapView
-            },
-            update = { view ->
-                view.overlays.clear()
+        Column {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = "Explore on map",
+                    style = MaterialTheme.typography.titleMedium
+                )
 
-                val validMarkers = markers.filter {
-                    it.latitude != 0.0 && it.longitude != 0.0
-                }
+                Text(
+                    text = "Restaurants and cafes around selected area",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
 
-                validMarkers.forEach { markerModel ->
-                    val geoPoint = GeoPoint(
-                        markerModel.latitude,
-                        markerModel.longitude
-                    )
+            AndroidView(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(260.dp),
+                factory = {
+                    mapView
+                },
+                update = { view ->
+                    view.overlays.clear()
 
-                    val marker = Marker(view).apply {
-                        position = geoPoint
-                        title = markerModel.title
-                        setAnchor(
-                            Marker.ANCHOR_CENTER,
-                            Marker.ANCHOR_BOTTOM
+                    val validMarkers = markers.filter {
+                        it.latitude != 0.0 && it.longitude != 0.0
+                    }
+
+                    validMarkers.forEach { markerModel ->
+                        val geoPoint = GeoPoint(
+                            markerModel.latitude,
+                            markerModel.longitude
+                        )
+
+                        val marker = Marker(view).apply {
+                            position = geoPoint
+                            title = markerModel.title
+                            setAnchor(
+                                Marker.ANCHOR_CENTER,
+                                Marker.ANCHOR_BOTTOM
+                            )
+                        }
+
+                        view.overlays.add(marker)
+                    }
+
+                    validMarkers.firstOrNull()?.let { firstMarker ->
+                        view.controller.animateTo(
+                            GeoPoint(
+                                firstMarker.latitude,
+                                firstMarker.longitude
+                            )
                         )
                     }
 
-                    view.overlays.add(marker)
+                    view.invalidate()
                 }
-
-                val firstMarker = validMarkers.firstOrNull()
-
-                if (firstMarker != null) {
-                    view.controller.animateTo(
-                        GeoPoint(
-                            firstMarker.latitude,
-                            firstMarker.longitude
-                        )
-                    )
-                }
-
-                view.invalidate()
-            }
-        )
+            )
+        }
     }
 }
 
