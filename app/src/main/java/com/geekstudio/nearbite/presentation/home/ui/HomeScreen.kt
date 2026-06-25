@@ -20,10 +20,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import com.geekstudio.nearbite.domain.model.Restaurant
+import com.geekstudio.nearbite.presentation.home.components.HomeHeader
 import com.geekstudio.nearbite.presentation.home.components.RestaurantCard
 import com.geekstudio.nearbite.presentation.home.state.HomeUiEvent
 import com.geekstudio.nearbite.presentation.home.state.HomeUiState
 import com.geekstudio.nearbite.presentation.home.components.RestaurantMap
+import com.geekstudio.nearbite.presentation.home.components.SearchSection
 import com.geekstudio.nearbite.presentation.map.mapper.toMapMarkerUiModel
 
 @Composable
@@ -68,6 +70,7 @@ fun HomeScreen(
                     EmptyContent()
                 } else {
                     RestaurantContent(
+                        state = state,
                         restaurants = restaurants,
                         onRestaurantClick = onRestaurantClick
                     )
@@ -79,6 +82,7 @@ fun HomeScreen(
 
 @Composable
 private fun RestaurantContent(
+    state: HomeUiState,
     restaurants: LazyPagingItems<Restaurant>,
     onRestaurantClick: (String) -> Unit
 ) {
@@ -96,19 +100,20 @@ private fun RestaurantContent(
                 }
         }
     }
+
+    HomeHeader()
+
+    SearchSection(query = state.searchQuery) {
+
+    }
+
     RestaurantMap(
         markers = mapMarkers
     )
-    LazyRow(
-        contentPadding = PaddingValues(12.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(restaurants.itemCount) { index ->
-            Text(
-                text = restaurants[index]?.title.orEmpty()
-            )
-        }
-    }
+
+    Text(
+        text = "Nearby Restaurants"
+    )
 
     LazyColumn(
         contentPadding = PaddingValues(12.dp),

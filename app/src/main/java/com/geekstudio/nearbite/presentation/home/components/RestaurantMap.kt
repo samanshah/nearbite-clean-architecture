@@ -3,6 +3,8 @@ package com.geekstudio.nearbite.presentation.home.components
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
@@ -46,52 +48,58 @@ fun RestaurantMap(
         }
     }
 
-    AndroidView(
-        modifier = modifier
+    Card(
+        modifier = Modifier
             .fillMaxWidth()
-            .height(260.dp),
-        factory = {
-            mapView
-        },
-        update = { view ->
-            view.overlays.clear()
+            .padding(horizontal = 16.dp)
+    ) {
+        AndroidView(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(260.dp),
+            factory = {
+                mapView
+            },
+            update = { view ->
+                view.overlays.clear()
 
-            val validMarkers = markers.filter {
-                it.latitude != 0.0 && it.longitude != 0.0
-            }
+                val validMarkers = markers.filter {
+                    it.latitude != 0.0 && it.longitude != 0.0
+                }
 
-            validMarkers.forEach { markerModel ->
-                val geoPoint = GeoPoint(
-                    markerModel.latitude,
-                    markerModel.longitude
-                )
+                validMarkers.forEach { markerModel ->
+                    val geoPoint = GeoPoint(
+                        markerModel.latitude,
+                        markerModel.longitude
+                    )
 
-                val marker = Marker(view).apply {
-                    position = geoPoint
-                    title = markerModel.title
-                    setAnchor(
-                        Marker.ANCHOR_CENTER,
-                        Marker.ANCHOR_BOTTOM
+                    val marker = Marker(view).apply {
+                        position = geoPoint
+                        title = markerModel.title
+                        setAnchor(
+                            Marker.ANCHOR_CENTER,
+                            Marker.ANCHOR_BOTTOM
+                        )
+                    }
+
+                    view.overlays.add(marker)
+                }
+
+                val firstMarker = validMarkers.firstOrNull()
+
+                if (firstMarker != null) {
+                    view.controller.animateTo(
+                        GeoPoint(
+                            firstMarker.latitude,
+                            firstMarker.longitude
+                        )
                     )
                 }
 
-                view.overlays.add(marker)
+                view.invalidate()
             }
-
-            val firstMarker = validMarkers.firstOrNull()
-
-            if (firstMarker != null) {
-                view.controller.animateTo(
-                    GeoPoint(
-                        firstMarker.latitude,
-                        firstMarker.longitude
-                    )
-                )
-            }
-
-            view.invalidate()
-        }
-    )
+        )
+    }
 }
 
 private const val DEFAULT_ZOOM = 13.0
