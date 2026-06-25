@@ -42,17 +42,6 @@ fun HomeScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        OutlinedTextField(
-            value = state.searchQuery,
-            onValueChange = {
-                onEvent(HomeUiEvent.SearchChanged(it))
-            },
-            modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text("Search restaurants")
-            },
-            singleLine = true
-        )
 
         when (val refreshState = restaurants.loadState.refresh) {
 
