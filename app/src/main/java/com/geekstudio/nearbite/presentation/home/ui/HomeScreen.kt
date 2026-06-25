@@ -20,8 +20,12 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import com.geekstudio.nearbite.domain.model.Restaurant
+import com.geekstudio.nearbite.presentation.home.components.HomeEmptyContent
+import com.geekstudio.nearbite.presentation.home.components.HomeErrorContent
 import com.geekstudio.nearbite.presentation.home.components.HomeHeader
+import com.geekstudio.nearbite.presentation.home.components.HomeLoadingContent
 import com.geekstudio.nearbite.presentation.home.components.RestaurantCard
+import com.geekstudio.nearbite.presentation.home.components.RestaurantCardPlaceholder
 import com.geekstudio.nearbite.presentation.home.state.HomeUiEvent
 import com.geekstudio.nearbite.presentation.home.state.HomeUiState
 import com.geekstudio.nearbite.presentation.home.components.RestaurantMap
@@ -53,11 +57,11 @@ fun HomeScreen(
         when (val refreshState = restaurants.loadState.refresh) {
 
             is LoadState.Loading -> {
-                LoadingContent()
+                HomeLoadingContent()
             }
 
             is LoadState.Error -> {
-                ErrorContent(
+                HomeErrorContent(
                     message = refreshState.error.message ?: "Unable to load restaurants",
                     onRetry = {
                         restaurants.retry()
@@ -67,7 +71,7 @@ fun HomeScreen(
 
             is LoadState.NotLoading -> {
                 if (restaurants.itemCount == 0) {
-                    EmptyContent()
+                    HomeEmptyContent()
                 } else {
                     RestaurantContent(
                         state = state,
@@ -140,56 +144,22 @@ private fun RestaurantContent(
 
             is LoadState.Loading -> {
                 item {
-                    CircularProgressIndicator()
+                    RestaurantCardPlaceholder()
                 }
             }
 
             is LoadState.Error -> {
                 item {
-                    Button(
-                        onClick = {
+                    HomeErrorContent(
+                        message = "Unable to load more restaurants",
+                        onRetry = {
                             restaurants.retry()
                         }
-                    ) {
-                        Text("Retry loading more")
-                    }
+                    )
                 }
             }
 
             is LoadState.NotLoading -> Unit
         }
     }
-}
-
-@Composable
-private fun LoadingContent() {
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun ErrorContent(
-    message: String,
-    onRetry: () -> Unit
-) {
-    Column {
-        Text(
-            text = message,
-            color = MaterialTheme.colorScheme.error
-        )
-
-        Button(
-            onClick = onRetry
-        ) {
-            Text("Retry")
-        }
-    }
-}
-
-@Composable
-private fun EmptyContent() {
-    Text("No restaurants found")
 }
